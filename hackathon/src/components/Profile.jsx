@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Camera, Save } from "lucide-react";
-
+import pic from "../assets/p1.jpeg";
 export default function Profile() {
   const [profile, setProfile] = useState({
     name: "John Doe",
     bio: "Love reading, traveling, and meeting new people!",
     interests: "Reading, Traveling, Music",
-    image: "https://via.placeholder.com/150",
+    image: pic,
   });
 
   const [selectedImage, setSelectedImage] = useState(null);

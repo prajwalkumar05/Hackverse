@@ -72,7 +72,7 @@ const initialPosts = [
 export default function HomePage() {
   const [posts, setPosts] = useState(initialPosts);
   const [newPost, setNewPost] = useState({ text: "", image: null });
-  const [stories, setStories] = useState(["https://via.placeholder.com/80", "https://via.placeholder.com/80"]);
+  const [stories, setStories] = useState([paintingImage, parkImage]);
 
   useEffect(() => {
     const handleScroll = () => {

@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { X, Heart, Home, Users, Calendar, User, Menu } from "lucide-react";
+import { X, Heart, Home, Users, Calendar, User, Menu } from "lucide-react"; 
+import p1 from "../assets/p1.jpeg";
+import p2 from "../assets/p2.jpeg";
+// import p3 from "../assets/yoga.jpeg";
 
 const friendsData = [
   {
@@ -8,21 +11,21 @@ const friendsData = [
     name: "John Doe",
     age: 65,
     interests: ["Reading", "Gardening", "Music"],
-    image: "https://via.placeholder.com/300",
+    image: p1,
   },
   {
     id: 2,
     name: "Jane Smith",
     age: 62,
     interests: ["Painting", "Yoga", "Travel"],
-    image: "https://via.placeholder.com/300",
+    image: p2,
   },
   {
     id: 3,
     name: "Michael Johnson",
     age: 70,
     interests: ["Chess", "Cooking", "Photography"],
-    image: "https://via.placeholder.com/300",
+    image: p2,
   },
 ];
 
