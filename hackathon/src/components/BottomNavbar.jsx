@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { Home, Users, Calendar, Settings, Mic } from "lucide-react";
+import { Home, Users, Calendar, MessageCircle, Mic } from "lucide-react";
 
 const BottomNavbar = () => {
   return (
@@ -52,17 +52,17 @@ const BottomNavbar = () => {
           <span className="text-xs font-semibold">Events</span>
         </NavLink>
 
-        {/* Profile Tab */}
+        {/* Chat Tab */}
         <NavLink
-          to="/profile"
+          to="/chat"
           className={({ isActive }) =>
             `flex flex-col items-center p-3 rounded-lg bg-white/90 shadow-md transition-all duration-300 hover:shadow-lg ${
               isActive ? "text-blue-600 scale-110" : "text-gray-700"
             }`
           }
         >
-          <Settings size={24} />
-          <span className="text-xs font-semibold">Profile</span>
+          <MessageCircle size={24} />
+          <span className="text-xs font-semibold">Chat</span>
         </NavLink>
       </div>
     </nav>

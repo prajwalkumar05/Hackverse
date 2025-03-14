@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { X, Heart, Home, Users, Calendar, User, Menu } from "lucide-react"; 
+import { X, Heart, Menu } from "lucide-react"; 
+
+// Import images from assets
 import p1 from "../assets/p1.jpeg";
 import p2 from "../assets/p2.jpeg";
-// import p3 from "../assets/yoga.jpeg";
+import p3 from "../assets/yoga.jpeg"; 
 
 const friendsData = [
   {
@@ -25,16 +27,19 @@ const friendsData = [
     name: "Michael Johnson",
     age: 70,
     interests: ["Chess", "Cooking", "Photography"],
-    image: p2,
+    image: p3,
   },
 ];
 
 export default function Friends() {
   const [friends, setFriends] = useState(friendsData);
-  const [activeTab, setActiveTab] = useState("friends");
 
-  const handleSwipe = (direction, id) => {
-    setFriends((prev) => prev.filter((friend) => friend.id !== id));
+  const handleSwipe = (direction) => {
+    if (friends.length > 0) {
+      setTimeout(() => {
+        setFriends((prev) => prev.slice(1)); // Remove the first card instead of filtering
+      }, 200); // Small delay for smoother animation
+    }
   };
 
   return (
@@ -46,21 +51,23 @@ export default function Friends() {
       </div>
 
       {/* 🔄 Tinder-Style Swiping Cards */}
-      <div className="flex items-center justify-center flex-1 w-full  mb-30">
+      <div className="flex items-center justify-center flex-1 w-full mb-16">
         {friends.length > 0 ? (
           <div className="relative w-80 h-96">
             {friends.map((friend, index) => (
               <motion.div
                 key={friend.id}
                 initial={{ scale: 1, opacity: 1 }}
+                animate={{ scale: 1, opacity: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 drag="x"
                 dragConstraints={{ left: 0, right: 0 }}
                 onDragEnd={(event, info) => {
-                  if (info.offset.x > 100) handleSwipe("right", friend.id);
-                  if (info.offset.x < -100) handleSwipe("left", friend.id);
+                  if (info.offset.x > 100) handleSwipe("right");
+                  if (info.offset.x < -100) handleSwipe("left");
                 }}
                 className="absolute w-full h-full bg-white rounded-lg shadow-xl p-4 flex flex-col justify-between"
+                style={{ zIndex: friends.length - index }} // Ensure top card is removed first
               >
                 <img
                   src={friend.image}
@@ -80,41 +87,20 @@ export default function Friends() {
       </div>
 
       {/* 💕 Swipe Action Buttons */}
-      <div className="fixed bottom-30 flex gap-6">
+      <div className="fixed bottom-16 flex gap-6">
         <button
-          onClick={() => handleSwipe("left", friends[0]?.id)}
+          onClick={() => handleSwipe("left")}
           className="bg-red-500 text-white p-4 rounded-full shadow-lg hover:bg-red-600"
         >
           <X size={28} />
         </button>
         <button
-          onClick={() => handleSwipe("right", friends[0]?.id)}
+          onClick={() => handleSwipe("right")}
           className="bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600"
         >
           <Heart size={28} />
         </button>
       </div>
-
-      {/* 🔽 Bottom Navbar */}
-      {/* <nav className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-md flex justify-around py-2">
-        {[
-          { icon: <Home size={24} />, label: "Home" },
-          { icon: <Users size={24} />, label: "Friends" },
-          { icon: <Calendar size={24} />, label: "Events" },
-          { icon: <User size={24} />, label: "Profile" },
-        ].map((tab) => (
-          <button
-            key={tab.label}
-            onClick={() => setActiveTab(tab.label.toLowerCase())}
-            className={`flex flex-col items-center p-2 transition-all duration-300 rounded-md ${
-              activeTab === tab.label.toLowerCase() ? "text-blue-500 scale-110 shadow-md" : "text-gray-600"
-            }`}
-          >
-            {tab.icon}
-            <span className="text-xs">{tab.label}</span>
-          </button>
-        ))}
-      </nav> */}
     </div>
   );
 }

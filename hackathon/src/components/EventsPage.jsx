@@ -1,8 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, QrCode, Phone, Mail, X, ChevronDown, MapPin, Users, Link } from 'lucide-react';
-
+import { useNavigate } from "react-router-dom";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+import p1 from '../assets/p1.jpeg';
+import p2 from '../assets/p2.jpeg';
+// import p3 from '../assets/p3.jpeg';
 // Main Events Page Component
+
+const birthdayPeople = [
+  {
+    id: 1,
+    name: "John Doe",
+    age: 75,
+    image: p1, // Replace with real image
+    location: "Central Park, NY",
+  },
+  {
+    id: 2,
+    name: "Jane Smith",
+    age: 82,
+    image: p2, // Replace with real image
+    location: "Downtown, CA",
+  },
+  {
+    id: 3,
+    name: "Michael Johnson",
+    age: 90,
+    image: p2, // Replace with real image
+    location: "Greenwood Village, TX",
+  },
+];
 const EventsPage = () => {
+  const navigate = useNavigate();
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+  };
+
   const [activeView, setActiveView] = useState('main'); // 'main', 'join', 'create'
   const [showRegistrationPopup, setShowRegistrationPopup] = useState(false);
   const [currentEventId, setCurrentEventId] = useState(null);
@@ -164,6 +205,28 @@ const EventsPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 mb-20">
+
+
+<div className="w-full max-w-lg mx-auto mb-8 relative mt-5">
+        <h2 className="text-center text-xl font-bold mb-2 text-gray-800">🎂 Celebrating Today!</h2>
+        <Slider {...sliderSettings}>
+          {birthdayPeople.map((person) => (
+            <div key={person.id} className="relative rounded-lg overflow-hidden shadow-lg">
+              <img src={person.image} alt={person.name} className="w-full h-64 object-cover rounded-lg" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent flex flex-col justify-end p-4">
+                <h2 className="text-white text-xl font-semibold">{person.name}, {person.age}</h2>
+                <p className="text-gray-300">🎂 Wish {person.name} a Happy {person.age}th Birthday! 🎊</p>
+                <button
+                  onClick={() => handleMakeWish(person.name, person.age)}
+                  className="mt-3 bg-blue-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-blue-600 transition"
+                >
+                  🎉 Make a Wish
+                </button>
+              </div>
+            </div>
+          ))}
+        </Slider>
+      </div>
       {/* Main View with Buttons */}
       {activeView === 'main' && (
         <div className="flex flex-col items-center justify-center h-80">

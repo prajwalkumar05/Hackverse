@@ -2,78 +2,28 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Heart, MessageCircle, Send, PlusCircle, Image } from "lucide-react";
 
-
+// Import images from assets
 import gardenImage from "../assets/garden.jpeg";
 import yogaImage from "../assets/yoga.jpeg";
-// import bookClubImage from "../assets/images/bookclub.jpg";
 import gamesImage from "../assets/games.jpeg";
 import parkImage from "../assets/park.jpeg";
 import paintingImage from "../assets/painting.jpeg";
 
 const initialPosts = [
-  {
-    id: 1,
-    name: "John Doe",
-    age: 65,
-    text: "Had a wonderful time at the community garden today! 🌱",
-    image: gardenImage,
-    likes: 12,
-    comments: [],
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    age: 62,
-    text: "Yoga session was refreshing. Thanks to everyone who joined! 🧘‍♂️",
-    image: yogaImage,
-    likes: 18,
-    comments: [],
-  },
-  // {
-  //   id: 3,
-  //   name: "Michael Johnson",
-  //   age: 70,
-  //   text: "Book club discussion was amazing! 📖 Looking forward to next time.",
-  //   image: bookClubImage,
-  //   likes: 25,
-  //   comments: [],
-  // },
-  {
-    id: 3,
-    name: "Sarah Williams",
-    age: 68,
-    text: "Had a great time playing board games with the community! 🎲",
-    image: gamesImage,
-    likes: 15,
-    comments: [],
-  },
-  {
-    id: 4,
-    name: "David Brown",
-    age: 66,
-    text: "Lovely evening walk and meetup at the park. 🌳",
-    image: parkImage,
-    likes: 20,
-    comments: [],
-  },
-  {
-    id: 5,
-    name: "Emma Davis",
-    age: 64,
-    text: "Exploring creativity at the painting class! 🎨",
-    image: paintingImage,
-    likes: 30,
-    comments: [],
-  },
+  { id: 1, name: "John Doe", age: 65, text: "Had a wonderful time at the community garden today! 🌱", image: gardenImage, likes: 12, comments: [] },
+  { id: 2, name: "Jane Smith", age: 62, text: "Yoga session was refreshing. Thanks to everyone who joined! 🧘‍♂️", image: yogaImage, likes: 18, comments: [] },
+  { id: 3, name: "Sarah Williams", age: 68, text: "Had a great time playing board games! 🎲", image: gamesImage, likes: 15, comments: [] },
+  { id: 4, name: "David Brown", age: 66, text: "Lovely evening walk in the park. 🌳", image: parkImage, likes: 20, comments: [] },
+  { id: 5, name: "Emma Davis", age: 64, text: "Exploring creativity in painting class! 🎨", image: paintingImage, likes: 30, comments: [] },
 ];
-
-
 
 export default function HomePage() {
   const [posts, setPosts] = useState(initialPosts);
   const [newPost, setNewPost] = useState({ text: "", image: null });
-  const [stories, setStories] = useState([paintingImage, parkImage]);
+  const [stories, setStories] = useState([{ id: 1, image: paintingImage }]);
+  const [newStory, setNewStory] = useState(null);
 
+  // Infinite Scroll for Posts
   useEffect(() => {
     const handleScroll = () => {
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
@@ -94,10 +44,27 @@ export default function HomePage() {
     ]);
   };
 
-  const handlePostChange = (e) => {
-    setNewPost({ ...newPost, text: e.target.value });
+  // Handle Story Upload
+  const handleStoryUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageURL = URL.createObjectURL(file);
+      setNewStory(imageURL);
+    }
   };
 
+  // Add Story (Updates in Real-Time)
+  const handleAddStory = () => {
+    if (newStory) {
+      setStories([{ id: stories.length + 1, image: newStory }, ...stories]);
+      setNewStory(null);
+    }
+  };
+
+  // Handle Post Input
+  const handlePostChange = (e) => setNewPost({ ...newPost, text: e.target.value });
+
+  // Handle Post Image Upload
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -106,6 +73,7 @@ export default function HomePage() {
     }
   };
 
+  // Add Post (Updates in Real-Time)
   const handleAddPost = () => {
     if (newPost.text || newPost.image) {
       setPosts([{ id: posts.length + 1, name: "You", age: "N/A", ...newPost, likes: 0, comments: 0 }, ...posts]);
@@ -118,17 +86,27 @@ export default function HomePage() {
       {/* 📸 Stories Section */}
       <div className="mt-16 px-4 flex space-x-3 overflow-x-auto scrollbar-hide">
         {/* Add Story Button */}
-        <div className="w-20 h-20 flex flex-col items-center justify-center bg-[#f9ecde] rounded-lg shadow-md cursor-pointer">
+        <label className="w-20 h-20 flex flex-col items-center justify-center bg-[#f9ecde] rounded-lg shadow-md cursor-pointer">
+          <input type="file" accept="image/*" onChange={handleStoryUpload} className="hidden" />
           <PlusCircle size={28} className="text-blue-500" />
           <span className="text-xs text-gray-600">Add Story</span>
-        </div>
+        </label>
         {/* User Stories */}
         {stories.map((story, index) => (
           <motion.div key={index} className="w-20 h-20 rounded-lg overflow-hidden border-2 border-blue-500">
-            <img src={story} alt="Story" className="w-full h-full object-cover" />
+            <img src={story.image} alt="Story" className="w-full h-full object-cover" />
           </motion.div>
         ))}
       </div>
+
+      {/* Add Story Button */}
+      {newStory && (
+        <div className="px-4 mt-3">
+          <button onClick={handleAddStory} className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">
+            Add Story
+          </button>
+        </div>
+      )}
 
       {/* ✏️ Add Post Section */}
       <div className="px-4 mt-6">
@@ -176,7 +154,7 @@ export default function HomePage() {
                 </button>
                 <button className="flex items-center text-gray-600 hover:text-blue-500 transition">
                   <MessageCircle size={20} className="mr-1" />
-                  <span>{post.comments} Comments</span>
+                  <span>{post.comments.length} Comments</span>
                 </button>
                 <button className="text-gray-600 hover:text-green-500 transition">
                   <Send size={20} />
