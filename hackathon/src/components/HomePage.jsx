@@ -1,178 +1,166 @@
-// import { useState } from "react";
-// import { Search, Bell, QrCode, MapPin, Film, Music, Mic, Home, Video, Calendar, User } from "lucide-react";
-// import Slider from "react-slick";
-// import "slick-carousel/slick/slick.css"; 
-// import "slick-carousel/slick/slick-theme.css";
-
-// export default function HomePage() {
-//   const [activeTab, setActiveTab] = useState("home");
-
-//   const categories = [
-//     { icon: <Film size={24} />, label: "Movies" },
-//     { icon: <Music size={24} />, label: "Music Shows" },
-//     // { icon: <Running size={24} />, label: "Sports" },
-//     { icon: <Mic size={24} />, label: "Comedy Shows" },
-//   ];
-
-//   const movies = [
-//     { src: "https://via.placeholder.com/150", title: "Movie 1" },
-//     { src: "https://via.placeholder.com/150", title: "Movie 2" },
-//     { src: "https://via.placeholder.com/150", title: "Movie 3" },
-//   ];
-
-//   const banners = [
-//     "https://via.placeholder.com/400x200",
-//     "https://via.placeholder.com/400x200",
-//     "https://via.placeholder.com/400x200",
-//   ];
-
-//   return (
-//     <div className="bg-gray-100 min-h-screen">
-//       {/* Top Navbar */}
-//       <div className="flex items-center justify-between px-4 py-3 bg-white shadow-md">
-//         <h1 className="text-lg font-bold flex items-center">
-//           It All Starts Here! 👋
-//         </h1>
-//         <div className="flex items-center gap-3">
-//           <MapPin size={20} className="text-red-500" />
-//           <span className="text-sm font-semibold text-red-500">Bengaluru ▼</span>
-//           <Search size={24} />
-//           <Bell size={24} />
-//           <QrCode size={24} />
-//         </div>
-//       </div>
-
-//       {/* Location Banner */}
-//       <div className="bg-blue-500 text-white text-center p-2 text-sm">
-//         Enable location to discover nearby events, movies, and more.
-//       </div>
-
-//       {/* Categories (Scrollable) */}
-//       <div className="flex space-x-6 overflow-x-auto px-4 py-3 bg-white shadow-sm scrollbar-hide">
-//         {categories.map((item, index) => (
-//           <div key={index} className="flex flex-col items-center">
-//             <div className="bg-gray-200 p-3 rounded-full">{item.icon}</div>
-//             <span className="text-xs font-medium">{item.label}</span>
-//           </div>
-//         ))}
-//       </div>
-
-//       {/* Banner / Carousel */}
-//       <div className="relative mt-4 px-4">
-//         <Slider
-//           dots={true}
-//           infinite={true}
-//           speed={500}
-//           slidesToShow={1}
-//           slidesToScroll={1}
-//           autoplay={true}
-//           autoplaySpeed={3000}
-//         >
-//           {banners.map((banner, index) => (
-//             <img key={index} src={banner} alt="Banner" className="w-full rounded-lg shadow-lg" />
-//           ))}
-//         </Slider>
-//       </div>
-
-//       {/* Recommended Movies */}
-//       <div className="px-4 py-3">
-//         <div className="flex justify-between items-center">
-//           <h2 className="text-lg font-semibold">Recommended Movies</h2>
-//           <button className="text-red-500 text-sm">See All ›</button>
-//         </div>
-//         <div className="flex space-x-4 overflow-x-auto mt-3 scrollbar-hide">
-//           {movies.map((movie, index) => (
-//             <img key={index} src={movie.src} alt={movie.title} className="w-28 h-40 rounded-lg shadow-md" />
-//           ))}
-//         </div>
-//       </div>
-
-//       {/* Bottom Navbar */}
-//       <nav className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-md flex justify-around py-2">
-//         {[
-//           { icon: <Home size={24} />, label: "Home" },
-//           { icon: <Video size={24} />, label: "Movies" },
-//           { icon: <Calendar size={24} />, label: "Live Events" },
-//           { icon: <User size={24} />, label: "Profile" },
-//         ].map((tab) => (
-//           <button
-//             key={tab.label}
-//             onClick={() => setActiveTab(tab.label.toLowerCase())}
-//             className={`flex flex-col items-center p-2 transition-all duration-300 rounded-md ${
-//               activeTab === tab.label.toLowerCase() ? "text-red-500 scale-110 shadow-md" : "text-gray-600"
-//             }`}
-//           >
-//             {tab.icon}
-//             <span className="text-xs">{tab.label}</span>
-//           </button>
-//         ))}
-//       </nav>
-//     </div>
-//     // <>hello world!
-//     // </>
-//   );
-// }
-
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Search, Bell, QrCode, MapPin, Home, Video, Calendar, User, Heart, MessageCircle, Send } from "lucide-react";
+import { Heart, MessageCircle, Send, PlusCircle, Image } from "lucide-react";
 
-const posts = [
+
+import gardenImage from "../assets/garden.jpeg";
+import yogaImage from "../assets/yoga.jpeg";
+// import bookClubImage from "../assets/images/bookclub.jpg";
+import gamesImage from "../assets/games.jpeg";
+import parkImage from "../assets/park.jpeg";
+import paintingImage from "../assets/painting.jpeg";
+
+const initialPosts = [
   {
     id: 1,
     name: "John Doe",
     age: 65,
     text: "Had a wonderful time at the community garden today! 🌱",
-    image: "https://via.placeholder.com/400x300",
+    image: gardenImage,
     likes: 12,
-    comments: 5,
+    comments: [],
   },
   {
     id: 2,
     name: "Jane Smith",
     age: 62,
     text: "Yoga session was refreshing. Thanks to everyone who joined! 🧘‍♂️",
-    image: "https://via.placeholder.com/400x300",
+    image: yogaImage,
     likes: 18,
-    comments: 8,
+    comments: [],
   },
+  // {
+  //   id: 3,
+  //   name: "Michael Johnson",
+  //   age: 70,
+  //   text: "Book club discussion was amazing! 📖 Looking forward to next time.",
+  //   image: bookClubImage,
+  //   likes: 25,
+  //   comments: [],
+  // },
   {
     id: 3,
-    name: "Michael Johnson",
-    age: 70,
-    text: "Book club discussion was amazing! 📖 Looking forward to next time.",
-    image: "https://via.placeholder.com/400x300",
-    likes: 25,
-    comments: 10,
+    name: "Sarah Williams",
+    age: 68,
+    text: "Had a great time playing board games with the community! 🎲",
+    image: gamesImage,
+    likes: 15,
+    comments: [],
+  },
+  {
+    id: 4,
+    name: "David Brown",
+    age: 66,
+    text: "Lovely evening walk and meetup at the park. 🌳",
+    image: parkImage,
+    likes: 20,
+    comments: [],
+  },
+  {
+    id: 5,
+    name: "Emma Davis",
+    age: 64,
+    text: "Exploring creativity at the painting class! 🎨",
+    image: paintingImage,
+    likes: 30,
+    comments: [],
   },
 ];
 
+
+
 export default function HomePage() {
-  const [activeTab, setActiveTab] = useState("home");
+  const [posts, setPosts] = useState(initialPosts);
+  const [newPost, setNewPost] = useState({ text: "", image: null });
+  const [stories, setStories] = useState(["https://via.placeholder.com/80", "https://via.placeholder.com/80"]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+        loadMorePosts();
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const loadMorePosts = () => {
+    setPosts((prev) => [
+      ...prev,
+      ...prev.map((post, index) => ({
+        ...post,
+        id: prev.length + index + 1,
+      })),
+    ]);
+  };
+
+  const handlePostChange = (e) => {
+    setNewPost({ ...newPost, text: e.target.value });
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageURL = URL.createObjectURL(file);
+      setNewPost({ ...newPost, image: imageURL });
+    }
+  };
+
+  const handleAddPost = () => {
+    if (newPost.text || newPost.image) {
+      setPosts([{ id: posts.length + 1, name: "You", age: "N/A", ...newPost, likes: 0, comments: 0 }, ...posts]);
+      setNewPost({ text: "", image: null });
+    }
+  };
 
   return (
-    <div className="bg-gray-100 min-h-screen">
-      {/* 🏠 Top Navbar */}
-      <div className="flex items-center justify-between px-4 py-3 bg-white shadow-md fixed top-0 w-full z-50">
-        <h1 className="text-lg font-bold">👥 Community Feed</h1>
-        <div className="flex items-center gap-3">
-          <MapPin size={20} className="text-red-500" />
-          <span className="text-sm font-semibold text-red-500">Bengaluru ▼</span>
-          <Search size={24} />
-          <Bell size={24} />
-          <QrCode size={24} />
+    <div className="bg-[#e2d89b] min-h-screen pb-20 pt-0">
+      {/* 📸 Stories Section */}
+      <div className="mt-16 px-4 flex space-x-3 overflow-x-auto scrollbar-hide">
+        {/* Add Story Button */}
+        <div className="w-20 h-20 flex flex-col items-center justify-center bg-[#f9ecde] rounded-lg shadow-md cursor-pointer">
+          <PlusCircle size={28} className="text-blue-500" />
+          <span className="text-xs text-gray-600">Add Story</span>
+        </div>
+        {/* User Stories */}
+        {stories.map((story, index) => (
+          <motion.div key={index} className="w-20 h-20 rounded-lg overflow-hidden border-2 border-blue-500">
+            <img src={story} alt="Story" className="w-full h-full object-cover" />
+          </motion.div>
+        ))}
+      </div>
+
+      {/* ✏️ Add Post Section */}
+      <div className="px-4 mt-6">
+        <div className="bg-white p-4 rounded-lg shadow-md">
+          <textarea
+            placeholder="What's on your mind?"
+            value={newPost.text}
+            onChange={handlePostChange}
+            className="w-full p-2 border border-gray-300 rounded resize-none"
+          />
+          {newPost.image && <img src={newPost.image} alt="New Post" className="w-full mt-2 rounded" />}
+          <div className="flex items-center justify-between mt-3">
+            <label className="flex items-center text-blue-500 cursor-pointer">
+              <Image size={24} className="mr-1" />
+              <span>Add Image</span>
+              <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+            </label>
+            <button onClick={handleAddPost} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+              Post
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* 🌟 Community Posts (Instagram-Style) */}
-      <div className="mt-16 pb-20 px-4 space-y-6">
+      {/* 🌟 Community Posts (Infinite Scroll) */}
+      <div className="mt-6 px-4 space-y-6">
         {posts.map((post, index) => (
           <motion.div
             key={post.id}
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.2 }}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
             className="bg-white rounded-lg shadow-md overflow-hidden"
           >
             <img src={post.image} alt="Post" className="w-full h-56 object-cover" />
@@ -198,28 +186,6 @@ export default function HomePage() {
           </motion.div>
         ))}
       </div>
-
-      {/* 🔽 Bottom Navbar */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-md flex justify-around py-2">
-        {[
-          { icon: <Home size={24} />, label: "Home" },
-          { icon: <Video size={24} />, label: "Explore" },
-          { icon: <Calendar size={24} />, label: "Events" },
-          { icon: <User size={24} />, label: "Profile" },
-        ].map((tab) => (
-          <button
-            key={tab.label}
-            onClick={() => setActiveTab(tab.label.toLowerCase())}
-            className={`flex flex-col items-center p-2 transition-all duration-300 rounded-md ${
-              activeTab === tab.label.toLowerCase() ? "text-blue-500 scale-110 shadow-md" : "text-gray-600"
-            }`}
-          >
-            {tab.icon}
-            <span className="text-xs">{tab.label}</span>
-          </button>
-        ))}
-      </nav>
     </div>
   );
 }
-
