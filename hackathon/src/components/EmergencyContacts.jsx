@@ -113,7 +113,7 @@ export default function EmergencyContacts() {
             <p className="text-gray-600 text-lg">No custom contacts added yet.</p>
           )}
 
-          {/* ➕ Add Custom Contact */}
+          {/* ➕ Add Custom Contact Button */}
           <button onClick={() => setIsAddingContact(true)} className="mt-6 bg-blue-600 text-white px-6 py-3 rounded-lg flex items-center space-x-2 hover:bg-blue-800 transition-all text-lg">
             <Plus size={24} />
             <span>Add Custom Contact</span>
@@ -121,14 +121,15 @@ export default function EmergencyContacts() {
         </div>
       </div>
 
-      {/* 📅 Appointment Booking Modal */}
+      {/* 🆕 Add Contact Modal */}
       <AnimatePresence>
-        {isBooking && (
-          <motion.div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4" onClick={() => setIsBooking(false)}>
+        {isAddingContact && (
+          <motion.div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4" onClick={() => setIsAddingContact(false)}>
             <motion.div className="bg-white p-8 rounded-2xl w-full max-w-md" onClick={(e) => e.stopPropagation()}>
-              <h2 className="text-2xl font-bold text-gray-800 mb-5">Book Appointment with {selectedDoctor?.name}</h2>
-              <input type="date" value={appointmentDate} onChange={(e) => setAppointmentDate(e.target.value)} className="w-full p-3 border border-gray-300 rounded-lg mb-4 text-lg" />
-              <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-800 transition-all text-lg">Confirm Appointment</button>
+              <h2 className="text-2xl font-bold text-gray-800 mb-5">Add Custom Contact</h2>
+              <input type="text" placeholder="Name" value={newContact.name} onChange={(e) => setNewContact({ ...newContact, name: e.target.value })} className="w-full p-3 border border-gray-300 rounded-lg mb-4 text-lg" />
+              <input type="tel" placeholder="Phone Number" value={newContact.number} onChange={(e) => setNewContact({ ...newContact, number: e.target.value })} className="w-full p-3 border border-gray-300 rounded-lg mb-4 text-lg" />
+              <button onClick={handleAddContact} className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-800 transition-all text-lg w-full">Add Contact</button>
             </motion.div>
           </motion.div>
         )}

@@ -62,7 +62,7 @@ const BottomNavbar = () => {
 
         {/* Chat Tab */}
         <NavLink
-          to="/chat"
+          to="/navigate"
           className={({ isActive }) =>
             `flex flex-col items-center p-3 rounded-lg bg-white/90 shadow-md transition-all duration-300 hover:shadow-lg ${
               isActive ? "text-blue-600 scale-110" : "text-gray-700"
