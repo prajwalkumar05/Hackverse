@@ -1,32 +1,62 @@
-import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import logo from "../assets/logo.png";
 
-const Signup = ({ toggleForm }) => {
-  const navigate = useNavigate();
-
-  const handleSignup = (e) => {
-    e.preventDefault();
-    // Simulate user registration
-    navigate("/login"); // Redirect to Login page after signup
-  };
-
+const SignUp = () => {
   return (
-    <div className="form-container sign-up w-full max-w-sm">
-      <form className="bg-white p-6 rounded-lg shadow-md text-center" onSubmit={handleSignup}>
-        <h1 className="text-2xl font-bold text-gray-800 mb-4">Create Account</h1>
-        <input type="text" placeholder="Name" required className="w-full p-2 border border-gray-300 rounded-md mb-3" />
-        <input type="tel" placeholder="Phone Number" required className="w-full p-2 border border-gray-300 rounded-md mb-3" />
-        <input type="email" placeholder="Email (Optional)" className="w-full p-2 border border-gray-300 rounded-md mb-3" />
-        <input type="number" placeholder="Age" required className="w-full p-2 border border-gray-300 rounded-md mb-3" />
-        <input type="password" placeholder="Password" required className="w-full p-2 border border-gray-300 rounded-md mb-3" />
-        <button type="submit" className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white py-2 rounded-md hover:opacity-90">
-          Sign Up
-        </button>
-        <p className="mt-4 text-blue-500 cursor-pointer switch" onClick={toggleForm}>
-          Already have an account? Sign In
-        </p>
-      </form>
+    <div className="min-h-screen flex justify-center items-center bg-gradient-to-r from-[#ff9a9e] to-[#fad0c4]">
+      <div className="w-full max-w-md bg-[#F5E1C8] p-8 rounded-lg shadow-lg">
+        {/* Logo */}
+        <div className="flex flex-col items-center mb-6">
+          <img
+            src={logo}
+            alt="ElderNest Logo"
+            className="w-60 h-20"
+          />
+         
+        </div>
+
+        {/* Sign Up Form */}
+        <div className="space-y-4">
+          <h1 className="text-2xl font-bold text-gray-800 text-center">Create Account</h1>
+          <input
+            type="text"
+            placeholder="Name"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#667eea]"
+            required
+          />
+          <input
+            type="tel"
+            placeholder="Phone Number"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#667eea]"
+            required
+          />
+          <input
+            type="email"
+            placeholder="Email (Optional)"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#667eea]"
+          />
+          <input
+            type="number"
+            placeholder="Age"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#667eea]"
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#667eea]"
+            required
+          />
+          <button className="w-full p-3 bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white rounded-lg hover:from-[#764ba2] hover:to-[#667eea] transition-all">
+            Sign Up
+          </button>
+          <p className="text-center text-[#667eea] underline cursor-pointer">
+            <NavLink to="/signin">Already have an account? Sign In</NavLink>
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default Signup;
+export default SignUp;

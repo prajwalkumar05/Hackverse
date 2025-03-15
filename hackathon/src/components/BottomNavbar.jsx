@@ -1,9 +1,9 @@
 import { NavLink } from "react-router-dom";
-import { Home, Users, Calendar, MessageCircle, Mic } from "lucide-react";
+import { Home, Users, Calendar,AlertCircle, MessageCircle, Mic } from "lucide-react";
 
 const BottomNavbar = () => {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white/70 backdrop-blur-xl border-t border-gray-200 shadow-lg z-50">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-t border-gray-200 shadow-lg z-50">
       <div className="flex justify-around items-center p-3">
         {/* Home Tab */}
         <NavLink
@@ -32,12 +32,20 @@ const BottomNavbar = () => {
         </NavLink>
 
         {/* Floating Action Button (Voice Recorder) */}
-        <NavLink
-          to="/record"
+        {/* <NavLink
+          to="/emergency"
           className="flex items-center justify-center w-16 h-16 bg-blue-500 text-white rounded-full shadow-xl -mt-10 hover:bg-blue-600 transition-all border-4 border-white"
         >
           <Mic size={28} />
-        </NavLink>
+        </NavLink> */}
+        <NavLink
+  to="/emergency"
+  className="flex items-center justify-center w-16 h-16 bg-blue-500 text-white rounded-full shadow-xl -mt-10 hover:bg-blue-600 transition-all border-4 border-white"
+>
+  <AlertCircle size={28} />
+</NavLink>
+
+
 
         {/* Events Tab */}
         <NavLink

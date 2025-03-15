@@ -5,11 +5,16 @@ import Friends from "./components/Friends";
 import Profile from "./components/Profile";
 import Events from "./components/EventsPage";
 import Layout from "./components/Layout";
-import Login from "./components/Login";
+// import Login from "./components/SignIn";
 import Signup from "./components/Signup";
+import EmergencyContacts from "./components/EmergencyContacts";
+// import SignInSignUp from "./components/SignInSignUp";
+import SignIn from "./components/Signin";
+import ChatApp from "./components/ChatApp";
+import NGOPage from "./components/NGOPage";
 
 const router = createBrowserRouter([
-  { path: "/login", element: <Login /> },
+  { path: "/signin", element: <SignIn/> },
   { path: "/signup", element: <Signup /> },
   {
     path: "/",
@@ -19,6 +24,11 @@ const router = createBrowserRouter([
       { path: "friends", element: <Friends /> },
       { path: "profile", element: <Profile /> },
       { path: "events", element: <Events /> },
+      {path:"emergency",element:<EmergencyContacts/>},
+      {path:"Chat",element:<ChatApp/>},
+      {path:"NGOpage",element:<NGOPage/>}
+
+
     ],
   },
 ]);

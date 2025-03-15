@@ -204,10 +204,10 @@ const EventsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 mb-20">
+    <div className="min-h-screen bg-gray-100 p-4 mb-10">
 
 
-<div className="w-full max-w-lg mx-auto mb-8 relative mt-5">
+<div className="w-full max-w-lg mx-auto mb-2 relative mt-5">
         <h2 className="text-center text-xl font-bold mb-2 text-gray-800">🎂 Celebrating Today!</h2>
         <Slider {...sliderSettings}>
           {birthdayPeople.map((person) => (
@@ -229,8 +229,8 @@ const EventsPage = () => {
       </div>
       {/* Main View with Buttons */}
       {activeView === 'main' && (
-        <div className="flex flex-col items-center justify-center h-80">
-          <h1 className="text-2xl font-bold mb-6">Events</h1>
+        <div className="flex flex-col items-center justify-center h-53">
+          <h1 className="text-2xl font-bold mb-3">Events</h1>
           <div className="space-y-4 w-full max-w-xs">
             <button 
               onClick={() => setActiveView('join')}
